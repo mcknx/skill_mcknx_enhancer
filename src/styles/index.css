@@ -240,7 +240,7 @@ body {
   border-radius: var(--radius-md);
   padding: var(--space-sm);
   overflow-x: auto;
-  max-height: 280px;
+  max-height: auto;
   overflow-y: auto;
 }
 
@@ -259,7 +259,7 @@ body {
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
   overflow: hidden;
-  max-height: 280px;
+  max-height: auto;
   overflow-y: auto;
 }
 

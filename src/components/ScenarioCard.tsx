@@ -171,25 +171,14 @@ export function ScenarioCard({ scenario, onComplete, onNext, isLast }: ScenarioC
 
             {showExplanation && (
                 <div className={`explanation-box ${!isCorrect ? 'incorrect-answer' : ''}`}>
-                    <div className="label">
-                        {isCorrect ? (hasRevealed ? '✅ Answer' : '✅ Correct!') : '❌ Incorrect'}
+                    <div className="answer-result">
+                        <span className="result-icon">{isCorrect ? '🎉' : '💡'}</span>
+                        <span className="result-text">
+                            {isCorrect ? (hasRevealed ? 'Answer:' : 'Correct!') : 'The answer is:'}
+                        </span>
+                        <span className="answer-name">{scenario.correctAnswer}</span>
                     </div>
-                    <h4>{scenario.correctAnswer}</h4>
-                    <p>{scenario.explanation}</p>
-                    <div className="code-block">
-                        <div className="code-header">
-                            <span className="code-language">JavaScript</span>
-                            <button
-                                className="code-copy"
-                                onClick={() => navigator.clipboard.writeText(scenario.codeExample)}
-                            >
-                                📋 Copy
-                            </button>
-                        </div>
-                        <div className="code-content">
-                            <pre>{scenario.codeExample}</pre>
-                        </div>
-                    </div>
+                    <p className="short-explanation">{scenario.explanation}</p>
                 </div>
             )}
 

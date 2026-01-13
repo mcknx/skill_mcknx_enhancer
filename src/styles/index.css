@@ -443,29 +443,39 @@ body {
 .explanation-box {
   background: rgba(16, 185, 129, 0.1);
   border: 1px solid rgba(16, 185, 129, 0.3);
+  text-align: center;
+  padding: var(--space-md);
 }
 
-.explanation-box .label {
-  color: var(--accent-success);
-  font-weight: 600;
-  font-size: 0.875rem;
-  margin-bottom: var(--space-sm);
+.answer-result {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
 }
 
-.explanation-box h4 {
-  color: var(--text-primary);
-  font-family: var(--font-mono);
-  font-size: 1.25rem;
-  margin-bottom: var(--space-md);
+.result-icon {
+  font-size: 1.5rem;
 }
 
-.explanation-box p {
+.result-text {
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: var(--space-md);
+  font-size: 0.9rem;
+}
+
+.answer-name {
+  color: var(--accent-success);
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.short-explanation {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
 }
 
 /* Incorrect answer styling */
@@ -474,7 +484,7 @@ body {
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
-.explanation-box.incorrect-answer .label {
+.explanation-box.incorrect-answer .answer-name {
   color: var(--accent-error);
 }
 

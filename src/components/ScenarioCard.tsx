@@ -108,20 +108,22 @@ export function ScenarioCard({ scenario, onComplete, onNext, isLast }: ScenarioC
             <span className="scenario-category">{scenario.category}</span>
             <p className="scenario-problem">{scenario.problem}</p>
 
-            <div className="visual-box">
-                <pre className="visual-content">{scenario.visual}</pre>
-            </div>
-
-            {scenario.problemCode && (
-                <div className="problem-code-block">
-                    <div className="code-header">
-                        <span className="code-language">Problem Code</span>
-                    </div>
-                    <div className="code-content">
-                        <pre>{scenario.problemCode}</pre>
-                    </div>
+            <div className="scenario-content-grid">
+                <div className="visual-box">
+                    <pre className="visual-content">{scenario.visual}</pre>
                 </div>
-            )}
+
+                {scenario.problemCode && (
+                    <div className="problem-code-block">
+                        <div className="code-header">
+                            <span className="code-language">Problem Code</span>
+                        </div>
+                        <div className="code-content">
+                            <pre>{scenario.problemCode}</pre>
+                        </div>
+                    </div>
+                )}
+            </div>
 
             <div className="options-grid">
                 {scenario.options.map((option, index) => (

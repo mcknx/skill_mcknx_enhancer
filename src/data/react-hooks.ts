@@ -179,6 +179,31 @@ recalculate when data changes!`,
     Even though function logic is SAME
     
     Need STABLE function reference`,
+    problemCode: `// Current code (causing re-renders)
+function Parent() {
+  const [count, setCount] = useState(0);
+  
+  // ❌ This function is recreated every render!
+  const handleClick = (id) => {
+    console.log('Clicked item:', id);
+  };
+  
+  return (
+    <>
+      <button onClick={() => setCount(c => c + 1)}>
+        Count: {count}
+      </button>
+      
+      {/* MemoizedChild re-renders when Parent renders */}
+      <MemoizedChild onClick={handleClick} />
+    </>
+  );
+}
+
+const MemoizedChild = React.memo(({ onClick }) => {
+  console.log('Child rendered!'); // Logs on EVERY parent render!
+  return <button onClick={onClick}>Click me</button>;
+});`,
     options: ['useEffect', 'useRef', 'useMemo', 'useCallback'],
     correctAnswer: 'useCallback',
     hint: 'You need to keep the FUNCTION reference stable, not the result of a calculation.',
@@ -435,6 +460,25 @@ Timeline:
 
 Problem: Last click was C, but A arrived last!
 Need to IGNORE outdated responses.`,
+    problemCode: `function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // ❌ BUG: No way to cancel stale requests!
+    fetch(\`/api/users/\${userId}\`)
+      .then(res => res.json())
+      .then(data => {
+        setUser(data); // Always sets, even if outdated!
+      });
+  }, [userId]);
+
+  return <div>{user?.name}</div>;
+}
+
+// User quickly clicks: User 1 → User 2 → User 3
+// Request for User 1 takes 3s (slow server)
+// Request for User 3 takes 0.5s (fast)
+// Result: Shows User 1 because it arrived LAST! 😱`,
     options: ['useState', 'useEffect', 'useRef', 'useMemo'],
     correctAnswer: 'useEffect',
     hint: 'You need a cleanup function that can mark previous requests as "cancelled" so their responses are ignored.',
@@ -459,15 +503,7 @@ Need to IGNORE outdated responses.`,
     id: 'stale-closure',
     category: 'Intermediate • Closures',
     problem: 'I have a setInterval that logs the count every second, but it always logs 0 even after I click the increment button multiple times.',
-    visual: `const [count, setCount] = useState(0);
-
-useEffect(() => {
-  setInterval(() => {
-    console.log(count);  // Always 0! 😱
-  }, 1000);
-}, []);
-
-Timeline:
+    visual: `Timeline:
 ───────────────────────────────────►
   Effect runs      count=1  count=2
   (count=0)         ↑         ↑
@@ -477,6 +513,32 @@ Timeline:
          forever! Stale closure! 🔒
 
 Need a way to always get LATEST value`,
+    problemCode: `function Counter() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // ❌ BUG: This always logs 0!
+      console.log('Count is:', count);
+    }, 1000);
+    
+    return () => clearInterval(intervalId);
+  }, []); // Empty deps = runs once, captures count=0
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(c => c + 1)}>
+        Increment
+      </button>
+    </div>
+  );
+}
+
+// Console output (even after clicking 5 times):
+// Count is: 0
+// Count is: 0
+// Count is: 0`,
     options: ['useState with callback', 'useRef', 'useMemo', 'useReducer'],
     correctAnswer: 'useRef',
     hint: 'You need a container that always holds the latest value without re-running the effect.',

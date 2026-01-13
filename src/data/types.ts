@@ -5,6 +5,7 @@ export interface Scenario {
     category: string;
     problem: string;
     visual: string;           // ASCII diagram or text illustration
+    problemCode?: string;     // Code snippet showing the problem
     options: string[];
     correctAnswer: string;
     hint: string;

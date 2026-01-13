@@ -237,6 +237,15 @@ body {
   white-space: pre;
 }
 
+/* Problem Code Block */
+.problem-code-block {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-xl);
+  overflow: hidden;
+}
+
 /* ===================================
    OPTIONS GRID
    =================================== */
@@ -434,6 +443,16 @@ body {
   color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: var(--space-md);
+}
+
+/* Incorrect answer styling */
+.explanation-box.incorrect-answer {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.explanation-box.incorrect-answer .label {
+  color: var(--accent-error);
 }
 
 /* ===================================

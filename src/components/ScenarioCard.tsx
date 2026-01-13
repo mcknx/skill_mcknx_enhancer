@@ -24,10 +24,9 @@ export function ScenarioCard({ scenario, onComplete, onNext, isLast }: ScenarioC
         const correct = option === scenario.correctAnswer;
         setIsCorrect(correct);
 
-        if (correct) {
-            setShowExplanation(true);
-            onComplete(hasRevealed);
-        }
+        // Always show explanation after answering (right or wrong)
+        setShowExplanation(true);
+        onComplete(hasRevealed || !correct); // Mark as "revealed" if wrong
     }, [selectedAnswer, scenario.correctAnswer, hasRevealed, onComplete]);
 
     const handleReveal = useCallback(() => {
@@ -113,6 +112,17 @@ export function ScenarioCard({ scenario, onComplete, onNext, isLast }: ScenarioC
                 <pre className="visual-content">{scenario.visual}</pre>
             </div>
 
+            {scenario.problemCode && (
+                <div className="problem-code-block">
+                    <div className="code-header">
+                        <span className="code-language">Problem Code</span>
+                    </div>
+                    <div className="code-content">
+                        <pre>{scenario.problemCode}</pre>
+                    </div>
+                </div>
+            )}
+
             <div className="options-grid">
                 {scenario.options.map((option, index) => (
                     <button
@@ -158,8 +168,10 @@ export function ScenarioCard({ scenario, onComplete, onNext, isLast }: ScenarioC
             )}
 
             {showExplanation && (
-                <div className="explanation-box">
-                    <div className="label">✅ {hasRevealed ? 'Answer' : 'Correct!'}</div>
+                <div className={`explanation-box ${!isCorrect ? 'incorrect-answer' : ''}`}>
+                    <div className="label">
+                        {isCorrect ? (hasRevealed ? '✅ Answer' : '✅ Correct!') : '❌ Incorrect'}
+                    </div>
                     <h4>{scenario.correctAnswer}</h4>
                     <p>{scenario.explanation}</p>
                     <div className="code-block">
@@ -179,12 +191,7 @@ export function ScenarioCard({ scenario, onComplete, onNext, isLast }: ScenarioC
                 </div>
             )}
 
-            {selectedAnswer && !isCorrect && !showExplanation && (
-                <div className="hint-box" style={{ marginTop: '1rem' }}>
-                    <div className="label">❌ Not quite</div>
-                    <p>That's not the best choice. Try again or reveal the answer to learn!</p>
-                </div>
-            )}
+
 
             <div className="keyboard-hints">
                 <span>⌨️ <code>A S D F</code> answer • <code>H</code> hint • <code>Enter</code> next</span>

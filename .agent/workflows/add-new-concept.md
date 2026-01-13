@@ -91,14 +91,35 @@ function getScenariosForTech(techId: string): Scenario[] {
 |-------|-------------|
 | `id` | Unique identifier |
 | `category` | "Level • Topic" format |
-| `problem` | Real-world scenario description |
-| `visual` | ASCII diagram (keep under 15 lines) |
-| `problemCode` | Optional - shows broken code to analyze |
-| `options` | Exactly 4 choices |
-| `correctAnswer` | Must match one option exactly |
+| `problem` | Real-world scenario description (keep distinct from explanation) |
+| `visual` | ASCII diagram (will be displayed side-by-side with code) |
+| `problemCode` | **MANDATORY**: Show broken/context code. |
+| `options` | Exactly 4 choices (A, S, D, F) |
+| `correctAnswer` | Must match one option exactly, simple name (e.g. "useMemo") |
 | `hint` | Helpful without giving away answer |
-| `explanation` | Why this is correct |
-| `codeExample` | Working solution |
+| `explanation` | Why this is correct (keep short!) |
+| `codeExample` | Working solution (hidden by default in feedback) |
+
+### Design Mandates (CRITICAL)
+
+#### 1. Problem Code is Mandatory
+Every scenario MUST have a `problemCode` field. 
+- **Why**: Users need to see the "broken" code or context to understand the problem.
+- **Content**: Show the bug (e.g. infinite loop, stale closure) or the inefficient implementation.
+- **Comments**: Use `// ❌` to highlight the specific issue.
+
+#### 2. Compact & Comfortable Layout
+The UI is designed for focus and reading comfort.
+- **Side-by-Side**: Visual ASCII diagrams and `problemCode` are displayed in a 2-column grid.
+- **Height**: Both boxes have a max-height of ~280px.
+- **Text Width**: Problem text is centered with `max-width: 640px` to prevent eye strain.
+
+#### 3. Simplified "Reward" Feedback
+When a user answers, the feedback must be minimal and rewarding (dopamine hit).
+- **Correct State**: Shows "🎉 Correct!" + Answer Name.
+- **Incorrect State**: Shows "💡 The answer is:" + Answer Name.
+- **Explanation**: A short, single-sentence "why".
+- **Code Example**: Hidden by default (user clicks Copy to see it). DO NOT clutter the immediate feedback with code blocks.
 
 ### Visual Diagram Style
 ```
@@ -114,7 +135,7 @@ Use box-drawing characters: `┌ ┐ └ ┘ │ ─ ▼ ► ◄ ▲`
 - Show the actual broken code
 - Add `// ❌` comments to highlight issues
 - Include console output or error messages
-- Keep under 25 lines
+- Keep under 25 lines to fit in the 280px scrollable area
 
 ---
 

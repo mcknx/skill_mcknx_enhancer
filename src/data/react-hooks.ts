@@ -148,6 +148,29 @@ const theme = useContext(ThemeContext);`
 
 Need to CACHE the result and only
 recalculate when data changes!`,
+    problemCode: `function ProductList({ products, filters }) {
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  // ❌ This runs on EVERY render!
+  // Even when only searchTerm changes
+  const filteredProducts = products
+    .filter(p => p.category === filters.category)
+    .filter(p => p.price >= filters.minPrice)
+    .sort((a, b) => a.name.localeCompare(b.name));
+  
+  // Typing in search box causes re-render
+  // Which recalculates filteredProducts! 🐢
+  
+  return (
+    <div>
+      <input 
+        value={searchTerm}
+        onChange={e => setSearchTerm(e.target.value)}
+      />
+      {filteredProducts.map(p => <Product key={p.id} {...p} />)}
+    </div>
+  );
+}`,
     options: ['useEffect', 'useRef', 'useMemo', 'useCallback'],
     correctAnswer: 'useMemo',
     hint: 'You want to cache the RESULT of an expensive calculation so it doesn\'t run every time.',
@@ -241,6 +264,28 @@ Better approach:
         │
         ▼
 dispatch({ type: 'SET_FIELD' })`,
+    problemCode: `function RegistrationForm() {
+  // ❌ Too many useState calls!
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [serverError, setServerError] = useState('');
+  
+  // Messy! Hard to track what's happening
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    setNameError('');
+    setEmailError('');
+    // ... reset all errors, then validate, then submit
+    // This is a nightmare to maintain! 😫
+  };
+}`,
     options: ['useState', 'useReducer', 'useContext', 'useMemo'],
     correctAnswer: 'useReducer',
     hint: 'Think about a pattern where state changes are described by "actions" and handled by a central logic.',
@@ -352,6 +397,30 @@ DOM Update ─► measurement ─► Browser Paint
                           Tooltip in right place
                           
                           No flicker! ✅`,
+    problemCode: `function Tooltip({ targetRef, content }) {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  
+  // ❌ useEffect runs AFTER paint
+  useEffect(() => {
+    const rect = targetRef.current.getBoundingClientRect();
+    setPosition({ x: rect.right + 10, y: rect.top });
+  }, []);
+  
+  // User sees:
+  // 1. Tooltip at (0, 0) for a split second
+  // 2. Tooltip jumps to correct position
+  // = FLICKER! 👀
+  
+  return (
+    <div style={{ 
+      position: 'fixed',
+      left: position.x,
+      top: position.y 
+    }}>
+      {content}
+    </div>
+  );
+}`,
     options: ['useEffect', 'useLayoutEffect', 'useRef', 'useMemo'],
     correctAnswer: 'useLayoutEffect',
     hint: 'You need to run your effect BEFORE the browser paints, synchronously after DOM mutations.',
@@ -583,6 +652,30 @@ re ──┤ (cancel previous)
 rea ──┤ (cancel previous)
 reac ──┤ (cancel previous)
 react ──┴── wait 300ms ──► 1 API call ✅`,
+    problemCode: `function SearchComponent() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+
+  // ❌ API call on EVERY keystroke!
+  const handleSearch = async (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    
+    // This fires for 'r', 're', 'rea', 'reac', 'react'
+    const data = await fetch(\`/api/search?q=\${value}\`);
+    setResults(await data.json());
+  };
+
+  return (
+    <input 
+      value={query}
+      onChange={handleSearch}
+      placeholder="Search..."
+    />
+  );
+}
+
+// Network tab shows 5 requests! 😱`,
     options: ['useState', 'useEffect', 'useMemo', 'useCallback'],
     correctAnswer: 'useEffect',
     hint: 'You need a cleanup function that cancels the previous timeout when the search term changes.',

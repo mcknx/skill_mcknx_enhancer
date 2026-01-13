@@ -496,6 +496,29 @@ body {
   color: var(--accent-error);
 }
 
+.solution-code-wrapper {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  max-width: 640px;
+  margin: var(--space-md) auto 0;
+  text-align: left;
+}
+
+.solution-code-wrapper .code-content {
+  padding: var(--space-sm);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  overflow-x: auto;
+}
+
+.small-header {
+  padding: 4px var(--space-sm);
+  background: rgba(16, 185, 129, 0.1);
+  /* Subtle green tint */
+}
+
 /* ===================================
    CODE BLOCK
    =================================== */

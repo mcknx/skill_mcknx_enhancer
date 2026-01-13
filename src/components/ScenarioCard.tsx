@@ -179,6 +179,15 @@ export function ScenarioCard({ scenario, onComplete, onNext, isLast }: ScenarioC
                         <span className="answer-name">{scenario.correctAnswer}</span>
                     </div>
                     <p className="short-explanation">{scenario.explanation}</p>
+
+                    <div className="solution-code-wrapper">
+                        <div className="code-header small-header">
+                            <span className="code-language">✅ Solution Code</span>
+                        </div>
+                        <div className="code-content">
+                            <pre>{scenario.codeExample}</pre>
+                        </div>
+                    </div>
                 </div>
             )}
 

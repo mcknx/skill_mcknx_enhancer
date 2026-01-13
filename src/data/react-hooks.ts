@@ -303,7 +303,7 @@ dispatch({ type: 'SUBMIT' });`
   {
     id: 'useEffect-2',
     category: 'Beginner • Cleanup',
-    problem: 'I\'m setting up a WebSocket connection when my chat component mounts. I need to make sure the connection is properly closed when the component unmounts to prevent memory leaks.',
+    problem: 'My chat app creates a new WebSocket connection when opened. But when I leave the page, the connection stays open forever. How do I close it automatically?',
     visual: `Component Mounts:
 ┌──────────────┐     ┌──────────────┐
 │  ChatRoom    │ ◄──►│   WebSocket  │

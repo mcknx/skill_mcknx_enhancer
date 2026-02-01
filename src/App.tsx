@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useProgress } from './hooks/useProgress';
 import { ScenarioCard } from './components/ScenarioCard';
 import { CompletionScreen } from './components/CompletionScreen';
-import { ProgressBar } from './components/ProgressBar';
 import { TechSelector } from './components/TechSelector';
 import { technologies } from './data/technologies';
 
@@ -70,12 +69,6 @@ function PracticeView({ techId, onBack }: PracticeViewProps) {
                 <p>Learn when to use each concept through real-world scenarios</p>
             </header>
 
-            <ProgressBar
-                current={currentIndex}
-                total={scenarios.length}
-                completed={completed}
-            />
-
             {isFinished ? (
                 <CompletionScreen
                     total={scenarios.length}
@@ -90,6 +83,8 @@ function PracticeView({ techId, onBack }: PracticeViewProps) {
                     onComplete={markCompleted}
                     onNext={goToNext}
                     isLast={isLast}
+                    currentIndex={currentIndex}
+                    totalScenarios={scenarios.length}
                 />
             ) : null}
         </div>

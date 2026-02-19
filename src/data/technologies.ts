@@ -19,29 +19,29 @@ export const technologies: Technology[] = [
         id: 'nextjs',
         name: 'Next.js',
         icon: '▲',
-        description: 'Coming soon - SSR, routing, data fetching, and deployment',
-        scenarioCount: 0
+        description: 'App Router, Server Components, caching, and deployment',
+        scenarioCount: 25
     },
     {
         id: 'react-native',
         name: 'React Native',
         icon: '📱',
-        description: 'Coming soon - Native components, navigation, and mobile APIs',
-        scenarioCount: 0
+        description: 'Mobile UI, navigation, state, and native capabilities',
+        scenarioCount: 5
     },
     {
         id: 'n8n',
         name: 'n8n',
         icon: '🔄',
-        description: 'Coming soon - Workflow automation, integrations, and AI agents',
-        scenarioCount: 0
+        description: 'Workflow automation, integrations, expressions, and AI',
+        scenarioCount: 5
     },
     {
         id: 'nodejs',
         name: 'Node.js',
         icon: '🟢',
-        description: 'Coming soon - Async patterns, streams, and APIs',
-        scenarioCount: 0
+        description: 'Async patterns, APIs, middleware, and runtime internals',
+        scenarioCount: 5
     },
     {
         id: 'typescript',

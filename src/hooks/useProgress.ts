@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Scenario } from '../data/types';
 import { reactHooksScenarios } from '../data/react-hooks';
+import { nextjsScenarios } from '../data/nextjs';
+import { reactNativeScenarios } from '../data/react-native';
+import { n8nScenarios } from '../data/n8n';
+import { nodejsScenarios } from '../data/nodejs';
 
 interface UseProgressReturn {
     scenarios: Scenario[];
@@ -26,6 +30,14 @@ function getScenariosForTech(techId: string): Scenario[] {
     switch (techId) {
         case 'react-hooks':
             return reactHooksScenarios;
+        case 'nextjs':
+            return nextjsScenarios;
+        case 'react-native':
+            return reactNativeScenarios;
+        case 'n8n':
+            return n8nScenarios;
+        case 'nodejs':
+            return nodejsScenarios;
         default:
             return [];
     }
